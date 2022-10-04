@@ -229,9 +229,10 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-//MSB=g, LSB=a: gfedcba
-//Active low-> 0 for on, 1 for off
-const uint16_t sevenSegTable[10] = {
+//Transfer sequence: gfedcba
+//MSB=g, LSB=a <- Active low
+//Ex: To display 0 -> sequence = 1000000
+const uint8_t sevenSegTable[10] = {
 		  0x0040 //0
 		, 0x0079 //1
 		, 0x0024 //2
@@ -241,7 +242,9 @@ const uint16_t sevenSegTable[10] = {
 		, 0x0002 //6
 		, 0x0078 //7
 		, 0x0000 //8
-		, 0x0010 /*9*/};
+		, 0x0010 //9
+};
+
 void display7SEG (int num){
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, ((sevenSegTable[num]>>0)&0x01));
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, ((sevenSegTable[num]>>1)&0x01));
