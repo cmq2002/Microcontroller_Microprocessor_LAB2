@@ -245,17 +245,17 @@ const uint8_t sevenSegTable[10] = {
 		, 0x0010 //9
 };
 
-void display7SEG (int num){
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, ((sevenSegTable[num]>>0)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, ((sevenSegTable[num]>>1)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, ((sevenSegTable[num]>>2)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, ((sevenSegTable[num]>>3)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, ((sevenSegTable[num]>>4)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, ((sevenSegTable[num]>>5)&0x01));
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, ((sevenSegTable[num]>>6)&0x01));
-}
+//void display7SEG (int num){
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, ((sevenSegTable[num]>>0)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, ((sevenSegTable[num]>>1)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, ((sevenSegTable[num]>>2)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, ((sevenSegTable[num]>>3)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, ((sevenSegTable[num]>>4)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, ((sevenSegTable[num]>>5)&0x01));
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, ((sevenSegTable[num]>>6)&0x01));
+//}
 
-static uint8_t led_buffer[4] = {1, 2, 5, 6};
+static uint8_t led_buffer[4] = {1, 2, 5, 8};
 void update7SEG (int index){
 	switch (index){
 		case 0:
@@ -285,21 +285,27 @@ void update7SEG (int index){
 		default:
 			break;
 	}
-	display7SEG(led_buffer[index]);
+//	display7SEG(led_buffer[index]);
+	GPIOB->ODR = sevenSegTable[led_buffer[index]];
 }
 
 const uint8_t MAX_LED = 4;
 static uint8_t index_led = 0;
 
-static uint16_t counter = setCounter;
+static uint16_t counterLed = setCounter;
+static uint16_t counter7SEG = setCounter;
 static uint16_t counterDot = setCounterDot;
 
 void systemRun(void){
-	counter--;
+	counterLed--;
+	counter7SEG--;
 	counterDot--;
-	if (counter <= 0){
-		counter = setCounter;
+	if (counterLed <= 0){
+		counterLed = setCounter;
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+	}
+	if (counter7SEG <= 0){
+		counter7SEG = setCounter;
 		update7SEG(index_led);
 		index_led = (index_led + 1) % MAX_LED;
 	}

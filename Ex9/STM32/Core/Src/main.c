@@ -32,7 +32,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define duration 50
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -84,44 +83,8 @@ void displayCol (int num){
 	  HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, ((colBuffer[num]>>7)&0x01));
 }
 
-void displayImage(int length){
-	for (int hold = 0; hold<length; hold++){
-		for (int i=0; i< MAX_LED_MATRIX;i++){
-			displayCol(i);
-			displayRow(i);
-		}
-	}
-}
-
 void updateLedMatrix(int num){
-	switch (num){
-		case 0:
-			displayCol(num);
-			break;
-		case 1:
-			displayCol(num);
-			break;
-		case 2:
-			displayCol(num);
-			break;
-		case 3:
-			displayCol(num);
-			break;
-		case 4:
-			displayCol(num);
-			break;
-		case 5:
-			displayCol(num);
-			break;
-		case 6:
-			displayCol(num);
-			break;
-		case 7:
-			displayCol(num);
-			break;
-		default:
-			break;
-	}
+	displayCol(num);
 	displayRow(num);
 }
 /* USER CODE END 0 */
@@ -161,13 +124,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(5);
+  setTimer1(1);
   while (1)
   {
 	  if (timer1_flag == 1){
 		  updateLedMatrix(index_led_matrix);
 		  index_led_matrix = (index_led_matrix+1) % MAX_LED_MATRIX;
-		  setTimer1(5);
+		  setTimer1(1);
 	  }
     /* USER CODE END WHILE */
 
@@ -230,7 +193,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7999;
+  htim2.Init.Prescaler = 13332;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 9;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
