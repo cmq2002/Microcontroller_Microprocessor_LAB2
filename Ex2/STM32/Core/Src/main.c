@@ -59,62 +59,7 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-enum ledState {led0, led1, led2, led3};
-enum ledState status = led1;
-//Transfering sequence: gfedcba
-// MSB = g; LSB = a -> Active Low
-static uint8_t sevenSegTable[10] = {
-	  0x40 //0
-	, 0x79 //1
-	, 0x24 //2
-	, 0x30 //3
-	, 0x19 //4
-	, 0x12 //5
-	, 0x02 //6
-	, 0x78 //7
-	, 0x00 //8
-	, 0x10 //9
-};
 
-void display7SEG (int num){
-	GPIOB->ODR = sevenSegTable[num];
-}
-
-void display7SEG1 (int num){
-	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-	display7SEG(num);
-	status = led2;
-}
-
-void display7SEG2 (int num){
-	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-	display7SEG(num);
-	status = led3;
-}
-
-void display7SEG3 (int num){
-	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
-	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-	display7SEG(num);
-	status = led0;
-}
-
-void display7SEG4 (int num){
-	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-	display7SEG(num);
-	status = led1;
-}
 /* USER CODE END 0 */
 
 /**
@@ -152,40 +97,40 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(setCounterLed);
-  setTimer2(setCounter7SEG);
-  setTimer3(setCounterDot);
+//  setTimer1(setCounterLed);
+//  setTimer2(setCounter7SEG);
+//  setTimer3(setCounterDot);
   while (1)
   {
-	 if (timer1_flag == 1){
-		 HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-		 setTimer1(setCounterLed);
-	 }
-
-	 if (timer2_flag == 1){
-		switch (status){
-			case led0:
-				display7SEG4(status);
-				break;
-			case led1:
-				display7SEG1(status);
-				break;
-			case led2:
-				display7SEG2(status);
-				break;
-			case led3:
-				display7SEG3(status);
-				break;
-			default:
-				break;
-		}
-	    setTimer2(setCounter7SEG);
-	 }
-
-	 if (timer3_flag == 1){
-		 HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		 setTimer3(setCounterLed);
-	 }
+//	 if (timer1_flag == 1){
+//		 HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+//		 setTimer1(setCounterLed);
+//	 }
+//
+//	 if (timer2_flag == 1){
+//		switch (status){
+//			case led1:
+//				display7SEG1(status);
+//				break;
+//			case led2:
+//				display7SEG2(status);
+//				break;
+//			case led3:
+//				display7SEG3(status);
+//				break;
+//			case led4:
+//				display7SEG4(status);
+//				break;
+//			default:
+//				break;
+//		}
+//	    setTimer2(setCounter7SEG);
+//	 }
+//
+//	 if (timer3_flag == 1){
+//		 HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+//		 setTimer3(setCounterLed);
+//	 }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -318,9 +263,88 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+enum ledState {led1=1, led2=2, led3=3, led4=0};
+enum ledState status = led1;
+//Transfering sequence: gfedcba
+// MSB = g; LSB = a -> Active Low
+static uint8_t sevenSegTable[10] = {
+	  0x40 //0
+	, 0x79 //1
+	, 0x24 //2
+	, 0x30 //3
+	, 0x19 //4
+	, 0x12 //5
+	, 0x02 //6
+	, 0x78 //7
+	, 0x00 //8
+	, 0x10 //9
+};
+
+void display7SEG (int num){
+	switch (num){
+		case led1:
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+			status = led2;
+			break;
+		case led2:
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+			status = led3;
+			break;
+		case led3:
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+			status = led4;
+			break;
+		case led4:
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
+			status = led1;
+			break;
+		default:
+			break;
+	}
+	GPIOB->ODR = sevenSegTable[num];
+}
+
+static uint16_t counterLed = setCounterLed;
+static uint16_t counter7SEG = setCounter7SEG;
+static uint16_t counterDot = setCounterDot;
+
+void systemRun(void){
+	counterLed--;
+	counter7SEG--;
+	counterDot--;
+	if (counterLed <= 0){
+		counterLed = setCounterLed;
+		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+	}
+
+	if (counter7SEG <= 0){
+		counter7SEG = setCounter7SEG;
+		display7SEG(status);
+
+	}
+
+	if (counterDot <= 0){
+		counterDot =setCounterDot;
+		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+	}
+}
+
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
-	timerRun();
+//	timerRun();
+	systemRun();
 }
 /* USER CODE END 4 */
 

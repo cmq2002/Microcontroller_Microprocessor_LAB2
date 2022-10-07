@@ -255,7 +255,7 @@ void display7SEG (int num){
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, ((sevenSegTable[num]>>6)&0x01));
 }
 
-static uint8_t led_buffer[4] = {1, 2, 5, 8};
+static uint8_t led_buffer[4] = {1, 2, 5, 6};
 void update7SEG (int index){
 	switch (index){
 		case 0:

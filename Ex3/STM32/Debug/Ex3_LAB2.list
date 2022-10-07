@@ -545,7 +545,7 @@ void display7SEG (int num){
 
 08000408 <update7SEG>:
 
-static uint8_t led_buffer[4] = {1, 2, 5, 8};
+static uint8_t led_buffer[4] = {1, 2, 5, 6};
 void update7SEG (int index){
  8000408:	b580      	push	{r7, lr}
  800040a:	b082      	sub	sp, #8

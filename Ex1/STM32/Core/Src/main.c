@@ -33,7 +33,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define setCounter 50
-#define MAX_LED 2
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -224,6 +223,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+enum ledState {led1=1, led2=2};
+enum ledState status = led1;
+
 //Transfering sequence: gfedcba
 // MSB = g; LSB = a -> Active Low
 static uint8_t sevenSegTable[10] = {
@@ -241,11 +243,11 @@ static uint8_t sevenSegTable[10] = {
 
 void display7SEG (int num){
 	switch (num){
-		case 1:
+		case led1:
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
 			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 			break;
-		case 2:
+		case led2:
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
 			break;
@@ -262,15 +264,14 @@ void display7SEG (int num){
 }
 
 static uint16_t counter = setCounter;
-static uint8_t index = MAX_LED - 1;
 void systemRun(void){
 	counter--;
 	if (counter <=0){
 		counter = setCounter;
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-		display7SEG(index);
-		index++;
-		if (index > MAX_LED) index = MAX_LED - 1;
+		display7SEG(status);
+		if (status == led1) status = led2;
+		else status = led1;
 	}
 }
 
