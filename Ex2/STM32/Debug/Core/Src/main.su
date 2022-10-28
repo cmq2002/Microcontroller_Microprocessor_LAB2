@@ -4,5 +4,5 @@ main.c:181:13:MX_TIM2_Init	32	static
 main.c:226:13:MX_GPIO_Init	32	static
 main.c:283:6:display7SEG	16	static
 main.c:323:6:systemRun	8	static
-main.c:344:6:HAL_TIM_PeriodElapsedCallback	16	static
-main.c:355:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:341:6:HAL_TIM_PeriodElapsedCallback	16	static
+main.c:352:6:Error_Handler	4	static,ignoring_inline_asm

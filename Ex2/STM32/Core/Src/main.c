@@ -328,13 +328,10 @@ void systemRun(void){
 		counterLed = setCounterLed;
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 	}
-
 	if (counter7SEG <= 0){
 		counter7SEG = setCounter7SEG;
 		display7SEG(status);
-
 	}
-
 	if (counterDot <= 0){
 		counterDot =setCounterDot;
 		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);

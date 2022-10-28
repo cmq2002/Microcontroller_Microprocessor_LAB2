@@ -631,7 +631,6 @@ void systemRun(void){
  8000484:	4810      	ldr	r0, [pc, #64]	; (80004c8 <systemRun+0x7c>)
  8000486:	f000 fbe9 	bl	8000c5c <HAL_GPIO_TogglePin>
 	}
-
 	if (counter7SEG <= 0){
  800048a:	4b0d      	ldr	r3, [pc, #52]	; (80004c0 <systemRun+0x74>)
  800048c:	881b      	ldrh	r3, [r3, #0]
@@ -646,9 +645,7 @@ void systemRun(void){
  800049a:	781b      	ldrb	r3, [r3, #0]
  800049c:	4618      	mov	r0, r3
  800049e:	f7ff ff47 	bl	8000330 <display7SEG>
-
 	}
-
 	if (counterDot <= 0){
  80004a2:	4b08      	ldr	r3, [pc, #32]	; (80004c4 <systemRun+0x78>)
  80004a4:	881b      	ldrh	r3, [r3, #0]

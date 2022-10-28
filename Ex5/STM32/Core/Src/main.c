@@ -34,6 +34,7 @@
 /* USER CODE BEGIN PD */
 #define setCounterDot 100
 #define setCounter 50
+#define MAX_LED 4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -58,8 +59,9 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-static uint8_t led_buffer[4] = {0, 0, 0, 0};
-const uint8_t MAX_LED = 4;
+
+
+static uint8_t led_buffer[MAX_LED] = {0, 0, 0, 0};
 static uint8_t index_led = 0;
 void updateClockBuffer(int hr, int min){
 	led_buffer[0] = hr/10;

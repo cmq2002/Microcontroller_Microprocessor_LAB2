@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0001633f  00000000  00000000  0002acc0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000093a4  00000000  00000000  00040fff  2**0
+ 17 .debug_line   000093a5  00000000  00000000  00040fff  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008205a  00000000  00000000  0004a3a3  2**0
+ 18 .debug_str    0008205a  00000000  00000000  0004a3a4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000cc3fd  2**0
+ 19 .comment      00000053  00000000  00000000  000cc3fe  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002708  00000000  00000000  000cc450  2**2
+ 20 .debug_frame  00002708  00000000  00000000  000cc454  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -77,10 +77,10 @@ Disassembly of section .text:
  8000148:	08001dd8 	.word	0x08001dd8
 
 0800014c <displayRow>:
-const int MAX_LED_MATRIX = 8;
-static int index_led_matrix = 0;
-static uint8_t rowBuffer[8] = {0xf8,0xfc,0x32,0x33,0x33,0x32,0xfc,0xf8};
-static uint8_t colBuffer[8] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+
+
+//{0xf8,0xfc,0x32,0x33,0x33,0x32,0xfc,0xf8}
+//{0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80}
 
 void displayRow (int num){
  800014c:	b580      	push	{r7, lr}
@@ -529,9 +529,9 @@ static void MX_TIM2_Init(void)
  8000454:	4b1d      	ldr	r3, [pc, #116]	; (80004cc <MX_TIM2_Init+0x94>)
  8000456:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
  800045a:	601a      	str	r2, [r3, #0]
-  htim2.Init.Prescaler = 13332;
+  htim2.Init.Prescaler = 1599;
  800045c:	4b1b      	ldr	r3, [pc, #108]	; (80004cc <MX_TIM2_Init+0x94>)
- 800045e:	f243 4214 	movw	r2, #13332	; 0x3414
+ 800045e:	f240 623f 	movw	r2, #1599	; 0x63f
  8000462:	605a      	str	r2, [r3, #4]
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
  8000464:	4b19      	ldr	r3, [pc, #100]	; (80004cc <MX_TIM2_Init+0x94>)

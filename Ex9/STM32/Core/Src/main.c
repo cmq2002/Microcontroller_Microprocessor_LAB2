@@ -59,7 +59,11 @@ static void MX_TIM2_Init(void);
 const int MAX_LED_MATRIX = 8;
 static int index_led_matrix = 0;
 static uint8_t rowBuffer[8] = {0xf8,0xfc,0x32,0x33,0x33,0x32,0xfc,0xf8};
-static uint8_t colBuffer[8] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+static uint8_t colBuffer[8] = {0x00,0x02,0x04,0x08,0x10,0x20,0x40,0x00};
+
+
+//{0xf8,0xfc,0x32,0x33,0x33,0x32,0xfc,0xf8}
+//{0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80}
 
 void displayRow (int num){
 	  HAL_GPIO_WritePin(ROW0_GPIO_Port,ROW0_Pin, ((rowBuffer[num]>>0)&0x01));
@@ -131,6 +135,7 @@ int main(void)
 		  updateLedMatrix(index_led_matrix);
 		  index_led_matrix = (index_led_matrix+1) % MAX_LED_MATRIX;
 		  setTimer1(1);
+
 	  }
     /* USER CODE END WHILE */
 
@@ -193,7 +198,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 13332;
+  htim2.Init.Prescaler = 1599;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 9;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
